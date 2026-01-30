@@ -1,5 +1,6 @@
 package com.moscow.restaurantapp.service;
 
+import com.moscow.restaurantapp.data.models.Role;
 import com.moscow.restaurantapp.data.models.Staff;
 import com.moscow.restaurantapp.data.repositories.StaffRepository;
 import com.moscow.restaurantapp.dtos.requests.OrderItemsRequest;
@@ -37,14 +38,35 @@ public class StaffServiceImpl implements StaffService {
         return null;
     }
 
-//    public StaffResponse createCook(StaffRequest staffRequest) {
-//        Cook cook=new Cook();
-//        StaffResponse staffResponse =new StaffResponse();
-//        cook.setName(staffRequest.getUsername());
-//        staffResponse.setMessage("successfully created");
-//        staffResponse.setUsername(cook.getName());
-//        return staffResponse;
-//    }
+
+    @Override
+    public StaffResponse updatePrice(StaffRequest staffRequest) {
+        Staff staff =new Staff();
+        int total =
+                staffRequest.getQuantity() * staffRequest.getUnitPrice();
+        staffRepository.save(staff);
+
+        StaffResponse response = new StaffResponse();
+        response.setPrice(total);
+
+        return response;
+    }
+
+    @Override
+    public Role getRole(Role role) {
+        if (role == null) {
+            return Role.COOK;
+        }
+        return role;
+    }
+
+    @Override
+    public StaffResponse updateQuantity(StaffRequest staffRequest) {
+        StaffResponse response = new StaffResponse();
+        response.setQuantity(staffRequest.getQuantity());
+        return response;
+    }
+
 
 
     }
